@@ -1,0 +1,109 @@
+DROP TABLE juego CASCADE ;
+
+DROP TABLE jugador CASCADE ;
+
+DROP TABLE categoria CASCADE ;
+
+DROP TABLE pais CASCADE ;
+
+DROP TABLE pegi CASCADE ;
+
+DROP TABLE puntaje CASCADE ;
+
+DROP TABLE juego_categoria CASCADE ;
+
+CREATE TABLE juego (
+	id SERIAL NOT NULL,
+	nombre VARCHAR(20) NOT NULL,
+	pegi INTEGER NOT NULL,
+	descripcion TEXT NOT NULL,
+	portada VARCHAR(150) NOT NULL,
+	num_jugadores INTEGER NOT NULL
+)
+;
+
+CREATE TABLE jugador (
+	id SERIAL NOT NULL,
+	nickname VARCHAR(20) NOT NULL,
+	password VARCHAR(16) NOT NULL,
+	nombre VARCHAR(20) NOT NULL,
+	apellido VARCHAR(20) NOT NULL,
+	e_mail VARCHAR(20) NOT NULL,
+	fecha_nacimiento DATE NOT NULL,
+	pais INTEGER NOT NULL,
+	avatar VARCHAR (150) NOT NULL
+)
+;
+
+CREATE TABLE categoria (
+	id SERIAL NOT NULL,
+	nombre VARCHAR(20) NOT NULL,
+	descripcion TEXT NOT NULL
+)
+;
+
+CREATE TABLE puntaje (
+	id SERIAL NOT NULL,
+	juego INTEGER NOT NULL,
+	jugador INTEGER NOT NULL
+)
+;
+
+CREATE TABLE pegi (
+	id SERIAL NOT NULL,
+	nombre VARCHAR(20) NOT NULL,
+	descripcion TEXT NOT NULL
+)
+;
+CREATE TABLE pais (
+	id SERIAL NOT NULL,
+	nombre VARCHAR(20) NOT NULL,
+	descripcion TEXT NOT NULL
+)
+;
+CREATE TABLE juego_categoria (
+	id SERIAL NOT NULL,
+	juego INTEGER NOT NULL,
+	categoria INTEGER NOT NULL
+)
+;
+ALTER TABLE juego ADD CONSTRAINT id_juego 
+	PRIMARY KEY (id)
+;
+ALTER TABLE jugador ADD CONSTRAINT id_jugador 
+	PRIMARY KEY (id)
+;
+ALTER TABLE categoria ADD CONSTRAINT id_categoria 
+	PRIMARY KEY (id)
+;
+ALTER TABLE puntaje ADD CONSTRAINT id_puntaje 
+	PRIMARY KEY (id)
+;
+ALTER TABLE pegi ADD CONSTRAINT id_pegi 
+	PRIMARY KEY (id)
+;
+ALTER TABLE pais ADD CONSTRAINT id_pais
+	PRIMARY KEY (id)
+;
+ALTER TABLE juego_categoria ADD CONSTRAINT id_juego_categoria
+	PRIMARY KEY (id)
+;
+ALTER TABLE juego_categoria ADD CONSTRAINT fk_juego 
+	FOREIGN KEY (juego) REFERENCES juego (id)
+;
+ALTER TABLE juego_categoria ADD CONSTRAINT fk_categoria
+	FOREIGN KEY (categoria) REFERENCES categoria (id)
+;
+ALTER TABLE puntaje ADD CONSTRAINT fk_juego 
+	FOREIGN KEY (juego) REFERENCES juego (id)
+;
+ALTER TABLE puntaje ADD CONSTRAINT fk_jugador 
+	FOREIGN KEY (jugador) REFERENCES jugador (id)
+;
+ALTER TABLE jugador ADD CONSTRAINT fk_pais 
+	FOREIGN KEY (pais) REFERENCES pais (id)
+;
+ALTER TABLE juego ADD CONSTRAINT fk_pegi 
+	FOREIGN KEY (pegi) REFERENCES pegi (id)
+;
+
